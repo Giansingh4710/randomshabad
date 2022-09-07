@@ -9,10 +9,12 @@
 </head>
 <body>
     <pre id="pre">ffwefffer</pre>
+    <button id='btn' onclick='newSbd()'>Click</button>
     <!-- <a href="./notlarrivar.html">Not Larrivar</a> -->
 </body>
 <script>
   const pre=document.getElementById("pre");
+
   function getRandomShabadId() {
     const keys = Object.keys(ALLSHABADS);
     const prop = keys[Math.floor(Math.random() * keys.length)];
@@ -31,9 +33,11 @@
     return ans
   }
 
+ function newSbd(){
   const theShabad=ALLSHABADS[getRandomShabadId()]
   pre.innerText=makeLarrivar(theShabad)
-
+ }
+newSbd();
 
     
 </script>
