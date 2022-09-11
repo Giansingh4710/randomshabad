@@ -1,45 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Shabad Larrivar</title>
-    <script type="text/javascript" src="./allShabads.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Shabad Larrivar</title>
+  <script type="text/javascript" src="./allShabads.js"></script>
 </head>
+
 <body>
-    <pre id="pre">ffwefffer</pre>
-    <button id='btn' onclick='newSbd()'>Click</button>
-    <!-- <a href="./notlarrivar.html">Not Larrivar</a> -->
+  <button id='btn' onclick='newSbd()'>New Shabad</button>
+
+  <input onclick="toggleLarrivar()" type="checkbox" id="LarrivarCheckbox" name="LarrivarCheckbox" checked>
+  <label for="LarrivarCheckbox">Larrivar</label>
+
+  <pre id="pre">Vaheguru</pre>
+  <!-- <a href="./notlarrivar.html">Not Larrivar</a> -->
 </body>
 <script>
-  const pre=document.getElementById("pre");
+  const pre = document.getElementById("pre");
+  let larrivar=true
+  let currentShabadId='0'
 
   function getRandomShabadId() {
     const keys = Object.keys(ALLSHABADS);
     const prop = keys[Math.floor(Math.random() * keys.length)];
     return prop;
   }
-  function makeLarrivar(sbd){
-    const lines=sbd.split('\n')
-    let ans=''
-    for(let i=0;i<lines.length;i++){
-      let line=lines[i]
+
+  function makeLarrivar(sbd) {
+    const lines = sbd.split('\n')
+    let ans = ''
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i]
       if (i % 3 == 0) {
         line = line.replace(/ /g, '');
       }
-      ans+=line+'\n'
+      ans += line + '\n'
     }
     return ans
   }
 
- function newSbd(){
-  const theShabad=ALLSHABADS[getRandomShabadId()]
-  pre.innerText=makeLarrivar(theShabad)
- }
-newSbd();
+  function toggleLarrivar(){
+    const theShabad = ALLSHABADS[currentShabadId]
+    if(larrivar){
+      larrivar=false
+      pre.innerText = theShabad
+    }else{
+      larrivar=true
+      pre.innerText = makeLarrivar(theShabad)
+    }
+  }
 
-    
+  function newSbd() {
+    currentShabadId=getRandomShabadId()
+    const theShabad = ALLSHABADS[currentShabadId]
+    if(larrivar){
+      pre.innerText = makeLarrivar(theShabad)
+    }else{
+      pre.innerText = theShabad
+    }
+  }
+  newSbd();
 </script>
-</html>
 
+</html>
