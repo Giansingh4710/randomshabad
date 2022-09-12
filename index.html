@@ -5,7 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Random Shabad Larrivar</title>
-  <script type="text/javascript" src="./allShabads.js"></script>
+  <script type="text/javascript" src="./dasam_sbd.js"></script>
+  <script type="text/javascript" src="./adi_maharaj_sbds.js"></script>
 </head>
 
 <body>
@@ -14,15 +15,42 @@
   <input onclick="toggleLarrivar()" type="checkbox" id="LarrivarCheckbox" name="LarrivarCheckbox" checked>
   <label for="LarrivarCheckbox">Larrivar</label>
 
+  <input onclick="toggleAdiBani()" type="checkbox" id="Adi Maharaj Bani" name="Adi Maharaj Bani" checked>
+  <label for="Adi Maharaj Bani">Adi Maharaj Bani</label>
+
+  <input onclick="toggleDasamBani()" type="checkbox" id="Dasam Maharaj Bani" name="Dasam Maharaj Bani" checked>
+  <label for="Dasam Maharaj Bani">Dasam Maharaj Bani</label>
+  <br>
+
   <pre id="pre">Vaheguru</pre>
   <!-- <a href="./notlarrivar.html">Not Larrivar</a> -->
+  <div>
+    Shabad Id:
+    <a id="shabadId"></a>
+  </div>
+  <button onclick="changeShabad('prev')">&#8592; Previous Shabad</button>
+  <button onclick="changeShabad('next')">Next Shabad &rarr;</button>
 </body>
 <script>
   const pre = document.getElementById("pre");
   let larrivar=true
+  let adiBani=true
+  let dasamBani=true
   let currentShabadId='0'
+  let ALLSHABADS; //obj of all possibleShabads
 
   function getRandomShabadId() {
+    let possibleShabads={};
+    if(adiBani){
+      possibleShabads={...All_Adi_Maharaj_Shabads}
+    }
+    if(dasamBani){
+      possibleShabads={
+        ...possibleShabads,
+        ...All_Dasam_Shabads
+      }
+    }
+    ALLSHABADS=possibleShabads
     const keys = Object.keys(ALLSHABADS);
     const prop = keys[Math.floor(Math.random() * keys.length)];
     return prop;
@@ -51,14 +79,38 @@
       pre.innerText = makeLarrivar(theShabad)
     }
   }
+  function toggleAdiBani(){
+    if(adiBani){
+      adiBani=false
+    }else{
+      adiBani=true
+    }
+  }
 
-  function newSbd() {
-    currentShabadId=getRandomShabadId()
+  function toggleDasamBani(){
+    if(dasamBani){
+      dasamBani=false
+    }else{
+      dasamBani=true
+    }
+  }
+
+  function newSbd(id=getRandomShabadId()) {
+    currentShabadId=id
     const theShabad = ALLSHABADS[currentShabadId]
+    document.getElementById('shabadId').innerText=currentShabadId
     if(larrivar){
       pre.innerText = makeLarrivar(theShabad)
     }else{
       pre.innerText = theShabad
+    }
+  }
+  function changeShabad(type){
+    if(type==='next'){
+      newSbd((parseInt(currentShabadId)+1).toString())
+    }
+    else if(type==='prev'){
+      newSbd((parseInt(currentShabadId)-1).toString())
     }
   }
   newSbd();
